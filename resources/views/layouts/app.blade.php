@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Mon Application')</title>
     <!-- Vous pouvez ajouter ici vos fichiers CSS -->
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
 
@@ -24,6 +25,6 @@
     <footer>
         <!-- Footer -->
     </footer>
-
+    <script src="{{ mix('js/app.js') }}" defer></script>
 </body>
 </html>
