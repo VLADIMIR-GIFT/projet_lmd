@@ -1,5 +1,5 @@
 <?php
-
+// Database\Factories\ECFactory.php
 namespace Database\Factories;
 
 use App\Models\EC;
@@ -16,7 +16,7 @@ class ECFactory extends Factory
             'code' => $this->faker->unique()->word,
             'nom' => $this->faker->word,
             'coefficient' => $this->faker->numberBetween(1, 5),
-            'enseignant' => $this->faker->name,
+            'enseignant' => 'Prof. ' . $this->faker->lastName, // Utilisation d'un enseignant contrôlé
             'ue_id' => UE::factory(), // Associe une UE à l'EC
         ];
     }

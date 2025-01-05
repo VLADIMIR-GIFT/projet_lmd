@@ -16,34 +16,28 @@ class UEsTest extends TestCase
 
     // Test pour la creation d'une UE
    // Exemple de test avec un utilisateur authentifié
-public function test_create_ue()
-{
-    // Créer un utilisateur fictif
-    $user = User::factory()->create();
+   public function test_create_ue()
+   {
+       // Envoi de la requête pour créer une UE
+       $response = $this->post('/ues', [
+           'code' => 'UE101',
+           'nom' => 'Mathematics',
+           'credits_ects' => 6,
+           'semestre' => 1,
+       ]);
 
-    // Simuler l'utilisateur authentifié
-    $this->actingAs($user);
+       // Vérifie que l'UE a bien été créée dans la base de données
+       $this->assertDatabaseHas('unites_enseignement', [
+           'code' => 'UE101',
+           'nom' => 'Mathematics',
+           'credits_ects' => 6,
+           'semestre' => 1,
+       ]);
 
-    // Envoi d'une requête POST pour créer une nouvelle UE
-    $response = $this->post('/ues', [
-        'code' => 'UE101',
-        'nom' => 'Mathematics',
-        'credits_ects' => 6,
-        'semestre' => '1',
-    ]);
+       // Vérifie qu'on redirige correctement après la création
+       $response->assertRedirect(route('ues.index'));
+   }
 
-    // Vérifie que l'UE a bien été créée dans la base de données
-    $this->assertDatabaseHas('unites_enseignement', [
-        'code' => 'UE101',
-        'nom' => 'Mathematics',
-        'credits_ects' => 6,
-        'semestre' => '1',
-    ]);
-
-    // Vérifie la redirection
-    $response->assertStatus(302);
-    $response->assertRedirect(route('ues.index'));
-}
 
 
     // Test pour l'affichage de la liste des UEs
