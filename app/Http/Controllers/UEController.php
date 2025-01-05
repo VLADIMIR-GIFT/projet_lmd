@@ -48,13 +48,11 @@ class UEController extends Controller
         $request->validate([
             'code' => 'required|string|max:10',
             'nom' => 'required|string|max:255',
-            'ects' => 'required|integer',
+            'credits_ects' => 'required|numeric',  // Assurez-vous qu'il est valide et non nul
             'semestre' => 'required|integer',
         ], [
-            'code.required' => 'Le code de l\'UE est obligatoire.',
-            'nom.required' => 'Le nom de l\'UE est obligatoire.',
-            'ects.required' => 'Le nombre d\'ECTS est obligatoire.',
-            'semestre.required' => 'Le semestre est obligatoire.',
+            'credits_ects.required' => 'Le nombre de crédits ECTS est obligatoire.',
+            'credits_ects.numeric' => 'Le nombre de crédits ECTS doit être un nombre.',
         ]);
 
         // Recherche de l'UE par son ID
@@ -64,13 +62,14 @@ class UEController extends Controller
         $ue->update([
             'code' => $request->input('code'),
             'nom' => $request->input('nom'),
-            'ects' => $request->input('ects'),
+            'credits_ects' => $request->input('credits_ects'),
             'semestre' => $request->input('semestre'),
         ]);
 
         // Redirection après mise à jour
         return redirect()->route('ues.index')->with('success', 'UE mise à jour avec succès.');
     }
+
 
     // Supprimer une UE
     public function destroy($id)
