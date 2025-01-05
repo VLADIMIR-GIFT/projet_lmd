@@ -11,8 +11,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('/ues', [UESController::class, 'store'])->name('ues.store');
+
 Route::get('/ues/create', [UESController::class, 'create'])->name('ues.create');
 
+Route::resource('ues', UESController::class);
 // Routes pour les UEs
 Route::get('/ues', [UEController::class, 'index'])->name('ues.index');
 
