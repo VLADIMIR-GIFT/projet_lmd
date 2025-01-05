@@ -6,8 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Note extends Model
 {
-    protected $fillable = ['etudiant_id', 'ec_id', 'note', 'session', 'date_evaluation'];
-
+    protected $fillable = [
+        'etudiant_id',
+        'ec_id', 
+        'note',
+        'date_evaluation',
+        'session',
+    ];
     public function etudiant()
     {
         return $this->belongsTo(Etudiant::class);
