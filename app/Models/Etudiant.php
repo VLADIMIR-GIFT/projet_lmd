@@ -1,15 +1,22 @@
 <?php
 
+
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Etudiant extends Model
 {
-    protected $fillable = ['numero_etudiant', 'nom', 'prenom', 'niveau'];
+    use HasFactory;
 
-    public function notes()
-    {
-        return $this->hasMany(Note::class);
-    }
+    protected $fillable = [
+        'nom',
+        'prenon',
+        'email',
+        'numero_etudiant',
+        'niveau',
+        
+    ];
 }

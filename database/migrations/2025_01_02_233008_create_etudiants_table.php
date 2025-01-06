@@ -15,15 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('numero_etudiant')->unique();
             $table->string('nom');
-            $table->string('prenom');
-            $table->string('niveau');
+            $table->string('prenom'); 
+            $table->string('niveau')->default(''); 
+            $table->string('email')->unique();
             $table->timestamps();
         });
     }
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('etudiants');
     }
