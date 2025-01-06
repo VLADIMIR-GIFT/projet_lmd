@@ -11,8 +11,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('/ues', [UESController::class, 'store'])->name('ues.store');
+
 Route::get('/ues/create', [UESController::class, 'create'])->name('ues.create');
 
+Route::resource('ues', UESController::class);
 // Routes pour les UEs
 Route::get('/ues', [UEController::class, 'index'])->name('ues.index');
 
@@ -58,4 +61,12 @@ Route::put('/ecs/{id}', [EcController::class, 'update'])->name('ecs.update');
 // Route pour supprimer un EC
 Route::delete('/ecs/{id}', [EcController::class, 'destroy'])->name('ecs.destroy');
 
+// Page d'accueil
+Route::get('/', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+// Routes CRUD pour étudiants et notes
+Route::resource('etudiants', EtudiantController::class);
+Route::resource('notes', NoteController::class);
 

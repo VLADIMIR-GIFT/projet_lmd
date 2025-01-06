@@ -6,39 +6,36 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 
-
 class UEsTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase; // Restaure la base de données après chaque test
 
+    // Test pour la création d'une UE
+    public function test_create_ue()
+    {
+        // Créer un utilisateur authentifié
+        $user = User::factory()->create();
+        $this->actingAs($user);
 
-    use RefreshDatabase;  // Restaure la base de données après chaque test
+        // Envoi de la requête pour créer une UE
+        $response = $this->post('/ues', [
+            'code' => 'UE101',
+            'nom' => 'Mathematics',
+            'credits_ects' => 6,
+            'semestre' => 1,
+        ]);
 
-    // Test pour la creation d'une UE
-   // Exemple de test avec un utilisateur authentifié
-   public function test_create_ue()
-   {
-       // Envoi de la requête pour créer une UE
-       $response = $this->post('/ues', [
-           'code' => 'UE101',
-           'nom' => 'Mathematics',
-           'credits_ects' => 6,
-           'semestre' => 1,
-       ]);
+        // Vérifie que l'UE a bien été créée dans la base de données
+        $this->assertDatabaseHas('u_e_s', [
+            'code' => 'UE101',
+            'nom' => 'Mathematics',
+            'credits_ects' => 6,
+            'semestre' => 1,
+        ]);
 
-       // Vérifie que l'UE a bien été créée dans la base de données
-       $this->assertDatabaseHas('unites_enseignement', [
-           'code' => 'UE101',
-           'nom' => 'Mathematics',
-           'credits_ects' => 6,
-           'semestre' => 1,
-       ]);
-
-       // Vérifie qu'on redirige correctement après la création
-       $response->assertRedirect(route('ues.index'));
-   }
-
-
+        // Vérifie qu'on redirige correctement après la création
+        $response->assertRedirect(route('ues.index'));
+    }
 
     // Test pour l'affichage de la liste des UEs
     public function test_index_ues()
@@ -89,6 +86,10 @@ class UEsTest extends TestCase
             'semestre' => '2',
         ]);
 
+        // Créer un utilisateur authentifié
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         // Envoi d'une requête PUT pour mettre à jour l'UE
         $response = $this->put(route('ues.update', $ue->id), [
             'code' => 'UE105',
@@ -120,6 +121,10 @@ class UEsTest extends TestCase
             'semestre' => '1',
         ]);
 
+        // Créer un utilisateur authentifié
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         // Envoi d'une requête DELETE pour supprimer l'UE
         $response = $this->delete(route('ues.destroy', $ue->id));
 
@@ -136,6 +141,10 @@ class UEsTest extends TestCase
     // Test pour vérifier que le champ credits_ects est obligatoire
     public function test_create_ue_with_invalid_data()
     {
+        // Créer un utilisateur authentifié
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         // Essayer de créer une UE avec des données invalides (credits_ects manquant)
         $response = $this->post('/ues', [
             'code' => 'UE107',
